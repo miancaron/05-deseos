@@ -20,9 +20,27 @@ export class DeseosService {
   }
 
   crearLista( titulo: string ) {
+
     const nuevaLista = new Lista( titulo );
     this.listas.push( nuevaLista );
     this.guardarStorage();
+
+    return nuevaLista.id;
+
+  }
+
+  obtenerLista( id: string | number ) {
+
+    // Convertir a number
+    id = Number(id);
+
+    // find devuelve el primer elemento de la lista que cumple la condición
+    // return this.listas.find( listaData => {
+    //   return listaData.id === id;
+    // } );
+
+    return this.listas.find( listaData => listaData.id === id );
+
   }
 
   guardarStorage() {
