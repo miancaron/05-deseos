@@ -74,4 +74,13 @@ export class AgregarPage implements OnInit {
 
   }
 
+  borrar( i: number ){
+
+    // Borrar un elemento desde la posición i
+    this.lista.items.splice( i, 1 );
+
+    this.deseosService.guardarStorage();
+
+  }
+
 }
