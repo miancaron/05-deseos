@@ -29,6 +29,15 @@ export class DeseosService {
 
   }
 
+  borrarLista( lista: Lista ){
+
+    // Para borrar una lista concreta -> filtramos todas las listas menos la que queremos borrar
+    this.listas = this.listas.filter( listaData => listaData.id !== lista.id );
+
+    this.guardarStorage();
+    
+  }
+
   obtenerLista( id: string | number ) {
 
     // Convertir a number
