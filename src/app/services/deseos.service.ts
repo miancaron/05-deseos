@@ -38,6 +38,16 @@ export class DeseosService {
     
   }
 
+  modificarTituloLista( lista: Lista ,
+                        titulo: string ) {
+
+    // let listaLocal = this.obtenerLista(lista.id);
+    lista.titulo = titulo;
+
+    this.guardarStorage();
+
+  }
+
   obtenerLista( id: string | number ) {
 
     // Convertir a number
