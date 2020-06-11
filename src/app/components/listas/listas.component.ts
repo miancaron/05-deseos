@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { DeseosService } from '../../services/deseos.service';
 import { Router } from '@angular/router';
 import { Lista } from '../../models/lista.model';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonList } from '@ionic/angular';
 
 @Component({
   selector: 'app-listas',
@@ -11,6 +11,9 @@ import { AlertController } from '@ionic/angular';
 })
 export class ListasComponent implements OnInit {
 
+  // ViewChild sirve para hacer referencia en este archivo a los elementos del archivo html.
+  // Al poner IonList entre paréntesis devolverá un array con todos los ion-list que tiene el html.
+  @ViewChild( IonList ) lista: IonList;
   @Input() terminada = true;
 
   constructor( public deseosService: DeseosService,
@@ -39,11 +42,10 @@ export class ListasComponent implements OnInit {
 
   }
 
-   // async convierte el método a una promesa
-   async modificarTituloLista( lista: Lista ) {
+  async editarLista( lista: Lista ){
 
     const alert = await this.alertCtrl.create({
-      header: 'Escriba nuevo título',
+      header: 'Editar lista',
       inputs: [
         {
           name: 'titulo',
@@ -62,34 +64,35 @@ export class ListasComponent implements OnInit {
           // handler: lo que hace cuando se pulsa el botón
           handler: () => {
             console.log('Cancelar');
+            // Cerrar el botón de "editar"
+            this.lista.closeSlidingItems();
           }
         },
         {
-          text: 'Modificar',
+          text: 'Actualizar',
           handler: ( data ) => {
             // data son los datos del formulario
             console.log( data );
-            // si no se cambia el título
-            if ( data.titulo === lista.titulo ){
+            // si no se ha escrito nada
+            if ( data.titulo.length === 0 ){
               // no hacemos nada
               return;
             }
 
-            // Modificar el título de la lista
-            this.deseosService.modificarTituloLista( lista, data.titulo );
+            lista.titulo = data.titulo;
 
-            // Navegar a la pantalla que corresponada
-            // if ( this.terminada ) {
-            //   this.router.navigateByUrl('/tabs/tab2');
-            // } else {
-            //   this.router.navigateByUrl('/tabs/tab1');
-            // }
+            this.deseosService.guardarStorage();
+
+            // Cerrar el botón de "editar"
+            this.lista.closeSlidingItems();
+
           }
         }
       ]
     });
 
     alert.present();
-}
+
+  }
 
 }
