@@ -12,8 +12,8 @@ import { AlertController, IonList } from '@ionic/angular';
 export class ListasComponent implements OnInit {
 
   // ViewChild sirve para hacer referencia en este archivo a los elementos del archivo html.
-  // Al poner IonList entre paréntesis devolverá un array con todos los ion-list que tiene el html.
-  @ViewChild( IonList ) lista: IonList;
+  // Al poner entre paréntesis el identificador concreto de la etiqueta, lista solo será ese IonList.
+  @ViewChild( 'ionListDelHtml' ) lista: IonList;
   @Input() terminada = true;
 
   constructor( public deseosService: DeseosService,
